@@ -81,6 +81,11 @@ public class History {
         return currentNode.move;
     }
 
+    public void reset(){
+        head = tail  = currentNode = null;
+        size = 0;
+    }
+
     // =============================Métodos Auxiliares para a Interface Gráfica (Não sei se vai ser útil)======================================== //
 
     public boolean canUndo() {

@@ -1,42 +1,45 @@
+import java.util.Scanner;
 public class TesteJogo {
     public static void main(String[] args) {
         System.out.println("=== INICIANDO O JOGO (3 Discos) ===");
         GameEngine game = new GameEngine(3);
-        game.printState(); // Deve mostrar 321 no Pino A
+        game.printState(); // Deve mostrar o game
 
-        System.out.println("\n--- JOGADA 1: Movendo do Pino 0 para 2 [Válida] ---");
-        game.moveDisk(0, 2);
-        game.printState(); // Pino C deve ter o disco 1
+        Scanner scanner = new Scanner(System.in);
+        int op;
+        int move;
 
-        System.out.println("\n--- JOGADA 2: Movendo do Pino 0 para 2 [INVÁLIDA] ---");
-        // Vai tentar jogar o disco 2 por cima do disco 1
-        game.moveDisk(0, 2); 
-        game.printState(); // O estado não deve ter mudado
+        //omovimento por enquanto é um numero de daus casas sendo a dezena a origem e a unidade o destino
+        do{
+            if(game.checkWin()) {System.out.println("PARABENS VOCE GANHOU");}
+            System.out.println("Voce deseja");
+            System.out.println("1 - Mover");
+            System.out.println("2 - Undo Move");
+            System.out.println("3 - Redo Mover");
+            System.out.println("4 - Reset");
+            System.out.println("5 - NewGame");
+            System.out.println("0 - Sair do sistema");
+            op = scanner.nextInt();
+            if(op == 1){
+                System.out.print("Mover: ");
+                move = scanner.nextInt();
+                game.moveDisk(move / 10, move % 10);
+                game.printState(); 
+            } else if(op == 2){
+                game.undoMove();
+                game.printState(); 
+            }else if(op == 3){
+                game.redoMove();
+                game.printState(); 
+            }else if(op == 4){
+                game.reset();
+                game.printState(); 
+            } else if(op == 5){
+                game.newGame();
+                game.printState(); 
+            } else break;
+            
 
-        System.out.println("\n--- JOGADA 3: Movendo do Pino 0 para 1 [Válida] ---");
-        game.moveDisk(0, 1);
-        game.printState(); // Pino B deve ter o disco 2
-
-        System.out.println("\n--- testando undo/desfazer (desfazendo a jogada 3) ---");
-        game.undoMove();
-        game.printState(); // O disco 2 deve voltar para o Pino A
-
-        System.out.println("\n--- Testando redo/refazer (refazendo a jogada 3) ---");
-        game.redoMove();
-        game.printState(); // O disco 2 deve ir novamente para o Pino B
-
-        System.out.println("\n--- Testando a bifurcação do histórico ---");
-        System.out.println("Desfazendo novamente...");
-        game.undoMove(); // Volta o disco 2 pro Pino A
-        game.printState();
-        
-        System.out.println("Movendo do Pino 0 para 2 (novo futuro)...");
-        // O pino 2 já tem o disco 1, tentar jogar o 2 lá vai dar erro, então jogamos para o 0 pra 2, mas tbm é inválido
-        // Vamos jogar o disco 1 do Pino 2 para o Pino 1
-        game.moveDisk(2, 1);
-        game.printState();
-
-        System.out.println("Tentando Refazer o futuro antigo...");
-        game.redoMove(); // Deve falhar, pois ao mover 2->1 a linha do tempo foi reescrita
+        }while(op > 0);
     }
 }
