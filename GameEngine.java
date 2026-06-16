@@ -112,12 +112,12 @@ public class GameEngine {
     }
 
    public void reset(){
-    history.reset();
-    pegs[0] = copyStack(initialStackState);
-    pegs[1].clear();
-    pegs[2].clear();
-    moveCounter = 0;
-}
+        history.reset();
+        pegs[0] = copyStack(initialStackState);
+        pegs[1].clear();
+        pegs[2].clear();
+        moveCounter = 0;
+    }
 
     public void newGame(){
         history.reset();
@@ -126,38 +126,38 @@ public class GameEngine {
     }
 
     public boolean checkWin() {
-    if (moveCounter == 0) return false; // nenhum movimento ainda
+        if (moveCounter == 0) return false; // nenhum movimento ainda
 
-    for (int i = 0; i < 3; i++) {
-        if (pegs[i].getSize() == numDisks && pegs[i].isSorted()) {
-            // Se for a torre A, verifica se mudou em relação ao estado inicial
-            if (i == 0) {
-                java.util.List<Integer> current = getPegDisksAsList(0);
-                java.util.List<Integer> initial = getPegDisksAsList_fromStack(initialStackState);
-                return !current.equals(initial);
+        for (int i = 0; i < 3; i++) {
+            if (pegs[i].getSize() == numDisks && pegs[i].isSorted()) {
+                // Se for a torre A, verifica se mudou em relação ao estado inicial
+                if (i == 0) {
+                    java.util.List<Integer> current = getPegDisksAsList(0);
+                    java.util.List<Integer> initial = getPegDisksAsList_fromStack(initialStackState);
+                    return !current.equals(initial);
+                }
+                return true; // torres B ou C com tudo ordenado = vitória
             }
-            return true; // torres B ou C com tudo ordenado = vitória
         }
+        return false;
     }
-    return false;
-}
 
 
-private java.util.List<Integer> getPegDisksAsList_fromStack(Stack stack) {
-    java.util.List<Integer> temp = new java.util.ArrayList<>();
-    Stack aux = new Stack();
+    private java.util.List<Integer> getPegDisksAsList_fromStack(Stack stack) {
+        java.util.List<Integer> temp = new java.util.ArrayList<>();
+        Stack aux = new Stack();
 
-    while (!stack.isEmpty()) {
-        int val = stack.pop();
-        temp.add(val);
-        aux.push(val);
+        while (!stack.isEmpty()) {
+            int val = stack.pop();
+            temp.add(val);
+            aux.push(val);
+        }
+        while (!aux.isEmpty()) stack.push(aux.pop());
+
+        java.util.List<Integer> result = new java.util.ArrayList<>();
+        for (int i = temp.size() - 1; i >= 0; i--) result.add(temp.get(i));
+        return result;
     }
-    while (!aux.isEmpty()) stack.push(aux.pop());
-
-    java.util.List<Integer> result = new java.util.ArrayList<>();
-    for (int i = temp.size() - 1; i >= 0; i--) result.add(temp.get(i));
-    return result;
-}
 
     public void printState() {
         System.out.println("----------------------- move counter: " + moveCounter);
@@ -168,35 +168,35 @@ private java.util.List<Integer> getPegDisksAsList_fromStack(Stack stack) {
     }
 
     public java.util.List<Integer> getPegDisksAsList(int pegIndex) {
-    if (pegIndex < 0 || pegIndex > 2) return new java.util.ArrayList<>();
+        if (pegIndex < 0 || pegIndex > 2) return new java.util.ArrayList<>();
 
-    Stack peg = pegs[pegIndex];
-    java.util.List<Integer> temp = new java.util.ArrayList<>();
+        Stack peg = pegs[pegIndex];
+        java.util.List<Integer> temp = new java.util.ArrayList<>();
 
-    Stack aux = new Stack();
-    while (!peg.isEmpty()) {
-        int val = peg.pop();
-        temp.add(val);
-        aux.push(val);
+        Stack aux = new Stack();
+        while (!peg.isEmpty()) {
+            int val = peg.pop();
+            temp.add(val);
+            aux.push(val);
+        }
+
+        while (!aux.isEmpty()) {
+            peg.push(aux.pop());
+        }
+
+        java.util.List<Integer> result = new java.util.ArrayList<>();
+        for (int i = temp.size() - 1; i >= 0; i--) {
+            result.add(temp.get(i));
+        }
+        return result;
     }
 
-    while (!aux.isEmpty()) {
-        peg.push(aux.pop());
+    public boolean isPegEmpty(int pegIndex) {
+        if (pegIndex < 0 || pegIndex > 2) return true;
+        return pegs[pegIndex].isEmpty();
     }
 
-    java.util.List<Integer> result = new java.util.ArrayList<>();
-    for (int i = temp.size() - 1; i >= 0; i--) {
-        result.add(temp.get(i));
+    public int getMoveCounter() {
+        return moveCounter;
     }
-    return result;
-}
-
-public boolean isPegEmpty(int pegIndex) {
-    if (pegIndex < 0 || pegIndex > 2) return true;
-    return pegs[pegIndex].isEmpty();
-}
-
-public int getMoveCounter() {
-    return moveCounter;
-}
 }
