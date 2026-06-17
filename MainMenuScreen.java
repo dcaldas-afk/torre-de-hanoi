@@ -8,14 +8,14 @@ public class MainMenuScreen {
     private JFrame frame;
 
     public MainMenuScreen() {
-        frame = new JFrame("Torre de Hanói");
+        frame = new JFrame("Torre de Hanói");//construtor da janela
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 600);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null); //centraliza na tela do monitor
     }
 
-    public void show() {
+    public void show() {//chama tudo q foi grafucamente construído 
         frame.setContentPane(buildPanel());
         frame.setVisible(true);
     }
@@ -236,8 +236,8 @@ public class MainMenuScreen {
             "2. Só o disco do TOPO de uma torre pode ser movido.\n" +
             "3. Um disco MAIOR nunca pode ser colocado sobre um MENOR.\n\n" +
             "CONTROLES\n" +
-            "• Clique na torre de ORIGEM, ela fica destacada.\n" +
-            "• Clique na torre de DESTINO, o disco se move.\n" +
+            "• Clique e segure no disco que deseja mover na torre de ORIGEM\n" +
+            "• Arraste-o até a torre de DESTINO.\n" +
             "• Desfazer: cancela o último movimento.\n" +
             "• Refazer: reaplica um movimento desfeito.\n" +
             "• Resetar: volta ao estado inicial desta partida.\n" +
